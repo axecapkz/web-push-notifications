@@ -96,32 +96,6 @@
         });
       }]);
 
-      // Notification Permission Dialog Events
-      Pushwoosh.push(['onLoad', function (api) {
-        Pushwoosh.addEventHandler('show-notification-permission-dialog', function (payload) {
-          console.log('Triggered event: show-notification-permission-dialog');
-        });
-
-        Pushwoosh.addEventHandler('hide-notification-permission-dialog', function (payload) {
-          console.log('Triggered event: hide-notification-permission-dialog', payload.permission);
-        });
-      }]);
-
-      // Permission Events
-      Pushwoosh.push(['onLoad', function (api) {
-        Pushwoosh.addEventHandler('permission-default', function () {
-          console.log('Triggered event: permission-default');
-        });
-
-        Pushwoosh.addEventHandler('permission-denied', function () {
-          console.log('Triggered event: permission-denied');
-        });
-
-        Pushwoosh.addEventHandler('permission-granted', function () {
-          console.log('Triggered event: permission-granted');
-        });
-      }]);
-
       // Receive Push Event
       Pushwoosh.push(['onLoad', function (api) {
         Pushwoosh.addEventHandler('receive-push', function (payload) {
@@ -140,40 +114,6 @@
         });
       }]);
 
-      // In-Box Events
-      Pushwoosh.push(['onLoad', function (api) {
-        Pushwoosh.addEventHandler('receive-inbox-message', function (payload) {
-          console.log('Triggered event: receive-inbox-message', payload.message);
-        });
-
-        Pushwoosh.addEventHandler('update-inbox-messages', function (payload) {
-          console.log('Triggered event: receive-inbox-message', payload.messages);
-        });
-      }]);
-
-      Pushwoosh.push(function(api) {
-        console.log('EVENT: onReady', api);
-
-        Pushwoosh.isCommunicationEnabled().then(function(isEnabled) {
-            document.querySelector('#GDPRSetCommunicationEnabled').checked = isEnabled;
-        });
-
-        document.querySelector('#GDPRSetCommunicationEnabled').addEventListener('click', function (event) {
-            event.preventDefault();
-            Pushwoosh.setCommunicationEnabled(event.target.checked);
-        }, false);
-
-        document.querySelector('#GDPRRemoveAllDeviceData').addEventListener('click', function() {
-          Pushwoosh.removeAllDeviceData();
-        });
-
-        checkSubscription();
-      });
-
-      Pushwoosh.push(['onChangeCommunicationEnabled', function(api, isEnabled) {
-        console.log('EVENT: onChangeCommunicationEnabled', isEnabled);
-        document.querySelector('#GDPRSetCommunicationEnabled').checked = isEnabled;
-      }]);
 
       Pushwoosh.push(['onSubscribe', function(api) {
         console.log('EVENT: onSubscribe', api);
@@ -185,27 +125,7 @@
         checkSubscription();
       }]);
 
-      Pushwoosh.push(['onRegister', function(api) {
-        console.log('EVENT: onRegister', api);
-        checkSubscription();
-      }]);
-
-      Pushwoosh.push(['onPermissionPrompt', function(api) {
-        console.log('EVENT: onPermissionPrompt', api);
-        toggleNodesVisibility('.permission-status', 'prompt');
-      }]);
-
-      Pushwoosh.push(['onPermissionDenied', function(api) {
-        console.log('EVENT: onPermissionDenied', api);
-        toggleNodesVisibility('.permission-status', 'denied');
-        checkSubscription();
-      }]);
-
-      Pushwoosh.push(['onPermissionGranted', function(api) {
-        console.log('EVENT: onPermissionGranted', api);
-        toggleNodesVisibility('.permission-status', 'granted');
-        checkSubscription();
-      }]);
+   
 
       Pushwoosh.push(['onPushDelivery', function(api, params) {
           console.log('EVENT: onPushDelivery', api, params);
